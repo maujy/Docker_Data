@@ -1,0 +1,10 @@
+FROM centos:latest
+ENV container docker
+RUN yum -y install openssh-server passwd initscripts
+RUN echo "root123" | passwd root --stdin
+COPY run-sshd.sh /run-sshd.sh
+RUN chmod +x /run-sshd.sh
+RUN chmod 755 /run-sshd.sh
+RUN /usr/sbin/sshd-keygen -A
+EXPOSE 22
+CMD ["/run-sshd.sh"]
